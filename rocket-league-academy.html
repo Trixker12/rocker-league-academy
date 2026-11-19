@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rocket League Mechanics Academy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&display=swap">
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#0f1b2d;--mut:#55657d;--line:#d8e0ec;--blue:#1f6fe5;--org:#e8740c;--red:#e5262b;--ok:#12a150;--field:#e6edf8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a1220;--card:#121d31;--ink:#e8eefb;--mut:#93a3bd;--line:#23324d;--field:#0d1729}}
+:root[data-theme="dark"]{--bg:#0a1220;--card:#121d31;--ink:#e8eefb;--mut:#93a3bd;--line:#23324d;--field:#0d1729}
+*{box-sizing:border-box}html{scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+h1,h2,h3{font-family:"Chakra Petch",system-ui,sans-serif;line-height:1.2;margin:0}
+header{background:linear-gradient(120deg,#0b2a6b,#1f6fe5 55%,#e8740c);color:#fff;padding:28px 18px 22px}
+.w{max-width:960px;margin:0 auto}
+header h1{font-size:clamp(26px,5vw,40px)}header p{margin:8px 0 14px;max-width:560px;opacity:.92}
+.me{display:inline-flex;gap:8px;align-items:center;background:rgba(255,255,255,.16);border-radius:99px;padding:6px 8px 6px 14px}
+button{font:inherit;cursor:pointer}
+.me button{background:#fff;color:#0b2a6b;border:0;border-radius:99px;padding:4px 12px;font-weight:600}
+nav{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line)}
+nav .w{display:flex;gap:4px;padding:0 10px;overflow-x:auto}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:14px 14px;color:var(--mut);font-weight:600;white-space:nowrap}
+nav button.on{color:var(--blue);border-color:var(--org)}
+main{padding:20px 14px 60px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.start{border-left:5px solid var(--org)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.chips button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 14px}
+.chips button.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+details.m{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px}
+details.m summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+details.m summary::-webkit-details-marker{display:none}
+details.m summary b{font-family:"Chakra Petch",sans-serif;font-size:18px;flex:1;min-width:150px}
+.tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--field);color:var(--mut);border:1px solid var(--line)}
+.tag.rec{background:var(--org);color:#fff;border-color:var(--org)}
+.body{padding:0 16px 16px}
+.body p.d{color:var(--mut);margin:0 0 10px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.cols{grid-template-columns:1fr}}
+.body h4{margin:12px 0 4px;font-size:15px}
+ol,ul{margin:0;padding-left:20px}li{margin:3px 0}
+.bad li::marker{color:var(--red)}.bad h4{color:var(--red)}
+.pic{background:var(--field);border:1px solid var(--line);border-radius:10px;padding:6px}
+.pic small{display:block;color:var(--mut);padding:2px 6px}
+svg{width:100%;height:auto;display:block}
+.tip{background:var(--field);border-left:4px solid var(--ok);padding:10px 12px;border-radius:8px;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}td,th{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}th{color:var(--mut);font-weight:600}
+.scroll{overflow-x:auto}
+dialog{border:0;border-radius:14px;padding:22px;max-width:420px;width:92%;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(5,10,25,.7)}
+.rk{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.rk button{padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font-weight:600}
+.rk button:hover,button:focus-visible{border-color:var(--org);outline:none}
+.rankcard h3{margin-bottom:6px}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>.v3{margin:6px 0 12px}.stage{height:270px;border-radius:10px;overflow:hidden;background:#0b1730;touch-action:none;display:grid;place-items:center;color:#93a3bd;font-size:14px;text-align:center;padding:8px}.stage canvas{display:block;width:100%!important;height:100%!important;cursor:grab}.vt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.vt button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:5px 14px}.vt button.on{background:var(--blue);color:#fff;border-color:var(--blue)}.vt button.on[data-v="1"]{background:var(--red);border-color:var(--red)}.vt span{color:var(--mut);font-size:13px}.cap{min-height:3em;margin:8px 0 0;font-weight:600}</style>
+</head>
+<body>
+<header><div class="w">
+<h1>Rocket League Mechanics Academy</h1>
+<p>Step-by-step lessons for every mechanic, with pictures, common mistakes circled in red, and a plan for your rank.</p>
+<div class="me">Your rank: <b id="myrank">not set</b><button id="chg">Choose rank</button></div>
+</div></header>
+<nav><div class="w" id="tabs">
+<button data-t="mech" class="on">Mechanics</button><button data-t="rank">Rank-up guide</button><button data-t="sens">Game settings and sens</button>
+</div></nav>
+<main><div class="w" id="view"></div></main>
+
+<dialog id="dlg"><h2>What’s your rank?</h2><p style="color:var(--mut);margin:6px 0 0">We’ll recommend the mechanics that will help you rank up fastest.</p><div class="rk" id="rk"></div></dialog>
+
+<script>
+const R=["Bronze","Silver","Gold","Platinum","Diamond","Champion","Grand Champion","Supersonic Legend"];
+const LV=["","Beginner","Easy","Medium","Hard","Expert"];
+// scene: [carX,carY,angle,ballX,ballY,path,errX,errY,errLabel]
+const M=[
+{n:"Boost and driving control",l:1,r:0,d:"The base of everything: steer smoothly, use boost with purpose, and collect small pads.",
+s:["Drive over small pads on your way instead of straight lines.","Tap boost in short bursts; hold it only when racing to the ball.","Brake early with the reverse button, not at the last second.","Keep ball cam on while driving and look at the ball, not your car."],
+m:["Holding boost all game and running empty.","Driving straight at the ball and over-committing."],t:"Aim to stay above 30 boost most of the time. Bronze to Gold players often win games just by having more boost.",
+sc:[40,120,0,230,115,"M60 118 L200 118",150,112,"Boost wasted"]},
+{n:"Jump, double jump and basic aerial",l:1,r:0,d:"Learn to leave the ground in control and hit the ball in the air.",
+s:["Drive toward the ball and jump when it is about one car-length above you.","Tilt the car back (pull stick down) and hold boost in the air.","Steer in air with the stick so the nose points at the ball.","Land on your wheels and keep driving."],
+m:["Jumping too early, so the ball is far above you.","Using the second jump too soon, losing height."],t:"Practice in Free Play with a ball bounce. Hit 10 aerials in a row before moving on.",
+sc:[60,120,-30,200,50,"M70 108 Q120 70 195 56",100,92,"Too early"]},
+{n:"Power shots and shot placement",l:2,r:1,d:"Hit the ball hard and aim at the corners.",
+s:["Line up behind the ball with the goal in front of you.","Drive at an angle so you hit the ball with the centre of your car.","Flip slightly before contact so the flip hits the ball.","Aim for the far post, not the middle."],
+m:["Hitting with the car’s nose or side, which loses power.","Flipping after the ball is already hit."],t:"Watch replays of your shots. If the keeper saves most, aim for the far post lower corner.",
+sc:[50,120,0,200,118,"M80 118 L170 118 L260 90",175,110,"Weak contact"]},
+{n:"Half-flip",l:2,r:1,d:"Turn around fast while keeping your boost forward.",
+s:["Pull back on the stick and jump (backward flip).","Right after the flip starts, tilt forward (push stick up).","Cancel the flip, then tap boost to go the other way.","Land on your wheels and keep going."],
+m:["Not cancelling the flip, so the car spins and lands upside down.","Using it at slow speed where reversing is better."],t:"Pair the half-flip with a boost pad grab when you go back to defense.",
+sc:[150,120,-20,60,100,"M170 105 Q110 40 70 105",110,70,"No cancel"]},
+{n:"Wave dash",l:3,r:2,d:"Keep speed after landing from a jump by flipping just before touching the ground.",
+s:["Jump and tilt your nose slightly down.","As you near the ground, press jump again and a direction.","Land with all four wheels at the same time.","You get a small speed boost, so use it after a jump or landing."],
+m:["Flipping too high and landing off balance.","Landing on the roof or nose."],t:"Practice at kickoffs and after half-flips to stay quick.",
+sc:[50,110,15,230,118,"M70 100 L190 120",150,114,"Flip too early"]},
+{n:"Fast aerial",l:3,r:2,d:"Reach the ball much faster than a basic aerial by combining jump, boost and flip.",
+s:["Jump and immediately tilt back and boost.","Hold jump a bit longer for a second jump height.","Flip at the right time to aim at the ball.","Hold boost until contact."],
+m:["Letting go of boost between the jumps.","Flipping too early and losing height."],t:"Training pack: “Fast aerial” packs on Workshop and Free Play.",
+sc:[50,120,-45,220,40,"M70 110 Q110 40 205 46",100,80,"Boost stop"]},
+{n:"Air roll control",l:3,r:2,d:"Rotate your car in the air so you land well and hit with the right surface.",
+s:["Bind air roll left and right to easy buttons (L1, R1).","In the air, tilt nose and roll the car at the same time.","Use small taps, not long holds.","Land with wheels down."],
+m:["Holding air roll too long so you spin out.","Not using it at all, so you land on roof."],t:"Use air roll when you want to hit the ball with the underside or side of your car.",
+sc:[120,70,25,210,90,"M140 70 Q180 40 205 85",140,60,"Spin out"]},
+{n:"Dribbling and ball carry",l:3,r:3,d:"Keep the ball on top of your car while moving.",
+s:["Hit the ball up at a slight angle, then drive under it.","Steer slowly and use tiny boost taps.","Keep the ball over the front half of the car.","Tilt the nose up or down to keep it from rolling away."],
+m:["Driving too fast so the ball drops off.","Steering too hard."],t:"Practice slow carries first. Speed comes after control.",
+sc:[100,120,0,125,96,"M60 118 L240 118",140,100,"Ball rolls off"]},
+{n:"Flicks (45 degree flick)",l:3,r:3,d:"Pop the ball forward off your car for a fast shot.",
+s:["Dribble with the ball slightly toward your nose.","Jump and flip diagonally (about 45 degrees).","Dodge into the ball as you tilt the nose slightly up.","Aim at the corner and boost to follow."],
+m:["Flipping too late so the ball escapes.","Flipping straight forward, which gives little power."],t:"Do the flick in a training pack with the ball starting still. Repeat 30 times.",
+sc:[110,118,0,130,92,"M135 88 L240 60",150,82,"Late flip"]},
+{n:"Ceiling shot",l:4,r:4,d:"Go up the wall to the ceiling and then drop onto the ball.",
+s:["Drive up the wall with boost.","Jump and fly to the ceiling.","Roll your car to land on the ceiling and drive.","Jump off and flip into the ball."],
+m:["Missing the ceiling because the angle is wrong.","Hitting the ball too late."],t:"Only try it when the ball is far in the air. It is a rare opener.",
+sc:[40,110,-60,170,30,"M50 100 L120 20 L250 70",120,26,"Wrong angle"]},
+{n:"Air dribble",l:4,r:4,d:"Keep the ball in the air with your car.",
+s:["Hit the ball off the wall or ground at a slight height.","Use the air roll and boost to keep the car close.","Keep the ball just in front of the nose.","Finish with a shot or flip."],
+m:["Using too much boost, which hits the ball away.","Not matching the ball’s direction."],t:"Start with wall air dribbles; they are easier to read.",
+sc:[70,100,-25,100,80,"M100 80 Q170 40 250 50",150,60,"Too much boost"]},
+{n:"Musty flick",l:5,r:5,d:"A backward flip that sends the ball over your car and forward.",
+s:["Carry the ball and tilt the car so the ball is near the nose.","Jump and tilt back.","Dodge backward right as the nose is pointing up.","Hit the ball with the nose as you spin."],
+m:["Too much nose-up before the flip.","Flipping before the ball is on your hood."],t:"Mustys look cool but also help beat keepers who expect a normal flick.",
+sc:[100,110,-30,115,85,"M120 80 Q150 30 240 62",138,72,"Early flip"]},
+{n:"Flip reset",l:5,r:5,d:"Touch the ball with your wheels in the air to reset your flip.",
+s:["Air dribble the ball high.","Rotate so your wheels face the ball.","Touch it with all four wheels.","Use your flip to shoot."],
+m:["Touching with only two wheels.","Using up all boost before the reset."],t:"Do not force it in a match. Take free chances only.",
+sc:[120,70,170,130,40,"M140 50 L240 20",140,55,"Two wheels"]},
+{n:"Speed flip",l:4,r:3,d:"A faster kickoff by flipping diagonally and cancelling the flip.",
+s:["Boost forward and jump diagonally.","Flip diagonally and tilt the opposite way.","Cancel the flip by pulling the stick back.","Land on your wheels and boost."],
+m:["Cancelling too late.","Landing at an angle."],t:"Practice in a kickoff training pack. Aim for the same time each game.",
+sc:[40,118,5,235,115,"M60 112 L210 112",120,105,"Late cancel"]},
+{n:"Double touch and backboard read",l:5,r:5,d:"Hit the ball off the backboard and then hit it again for a goal.",
+s:["Hit the ball hard at the backboard.","Fly after it and keep boost.","Flip into the ball when it drops.","Aim to the far post."],
+m:["Hitting too softly.","Not reading the bounce."],t:"Study replays of high-level players to see where the ball bounces.",
+sc:[50,115,-40,230,50,"M70 100 Q180 10 250 50",195,32,"Soft hit"]}
+];
+let rank=-1,tab="mech",flt="rec";
+const $=s=>document.querySelector(s);
+function svg(s,bad){const[cx,cy,a,bx,by,p,ex,ey,lb]=s;const ang=bad?a+28:a;
+let h=`<svg viewBox="0 0 300 150" role="img" aria-label="${bad?'Mistake':'Correct'} diagram"><defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="${bad?'#8896ad':'#12a150'}"/></marker></defs>
+<line x1="0" y1="135" x2="300" y2="135" stroke="#8896ad" stroke-width="2"/>
+<path d="${p}" fill="none" stroke="${bad?'#8896ad':'#12a150'}" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ar)"/>
+<circle cx="${bx}" cy="${by}" r="9" fill="#e8740c"/>
+<g transform="translate(${cx} ${cy}) rotate(${ang})"><rect x="-18" y="-6" width="36" height="12" rx="3" fill="#1f6fe5"/><rect x="2" y="-10" width="12" height="6" rx="2" fill="#7fb0ff"/><circle cx="-10" cy="7" r="4" fill="#222"/><circle cx="10" cy="7" r="4" fill="#222"/></g>`;
+if(bad)h+=`<circle cx="${ex}" cy="${ey}" r="18" fill="none" stroke="#e5262b" stroke-width="3.5"/><text x="${Math.min(ex,205)}" y="${ey>60?ey-24:ey+34}" font-size="12" font-weight="700" fill="#e5262b" text-anchor="middle">${lb}</text>`;
+else h+=`<circle cx="${cx}" cy="${cy-24}" r="9" fill="#12a150"/><text x="${cx}" y="${cy-20}" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">1</text><circle cx="${Math.min(bx,285)}" cy="${by-18}" r="9" fill="#12a150"/><text x="${Math.min(bx,285)}" y="${by-14}" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">2</text>`;
+return h+"</svg>"}
+function card(m){const rec=rank>=0&&m.r<=rank&&m.r>=rank-1&&rank<7||rank==7&&m.r>=5;
+return `<details class="m"><summary><b>${m.n}</b>${rec?'<span class="tag rec">Recommended for you</span>':''}<span class="tag">${LV[m.l]}</span><span class="tag">Learn from ${R[m.r]}</span></summary><div class="body">
+<p class="d">${m.d}</p>
+<div class="cols"><div><h4>Steps</h4><ol>${m.s.map(x=>`<li>${x}</li>`).join("")}</ol></div>
+<div class="bad"><h4>Common mistakes</h4><ul>${m.m.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>
+<div class="cols" style="margin-top:12px"><div class="pic">${svg(m.sc,0)}<small>Correct: follow the numbered points</small></div><div class="pic">${svg(m.sc,1)}<small>Mistake: the red circle shows where it goes wrong</small></div></div>
+<div class="tip"><b>Bonus tip:</b> ${m.t}</div></div></details>`}
+const UP=[
+["Bronze","Learn to hit the ball cleanly and get back on defense.",["Touch the ball every kickoff","Stop ball-chasing: stay behind teammates","Collect small pads","Use ball cam"],"Hit the ball with your car’s front, not the side. Stay between the ball and your goal."],
+["Silver","Control your car and learn basic rotation.",["Learn the basic jump and aerial","Rotate: after you hit, go back","Don’t double commit"],"Rotation beats mechanics here. Win by being on time."],
+["Gold","Add consistency: shots on target, saves and boost.",["Power shot","Half-flip","Wave dash","Fast aerial basics"],"Make sure 3 of every 4 shots are on target. Defend with the half-flip."],
+["Platinum","Fast aerials and air roll, with calmer decisions.",["Fast aerial","Air roll control","Basic dribble"],"Use 50/50s smartly: don’t challenge when you’re last back."],
+["Diamond","Speed and consistency under pressure.",["Speed flip","Flicks","Wave dash into shot","Boost control"],"Take away the lazy touches and shoot fewer weak shots."],
+["Champion","Advanced air game and team play.",["Air dribbles","Ceiling shots","Backboard reads","Pass plays"],"Reduce mistakes. Most Champ players lose games by bad positioning."],
+["Grand Champion","Master speed, pressure and reading the opponent.",["Flip reset basics","Musty flicks","Double taps","Fast kickoffs"],"Study replays. Win by making fewer mistakes than your opponent."],
+["Supersonic Legend","Perfect control, fast decisions and tactics.",["All mechanics at game speed","Mind games","Team calls"],"Keep your habits clean. Fine-tune your boost and shot decisions."]];
+function view(){const v=$("#view");
+if(tab=="mech"){let h="";
+if(rank>=0){const s=M.filter(m=>m.r<=rank).sort((a,b)=>b.r-a.r||a.l-b.l)[0]||M[0];
+const nx=rank<7?R[rank+1]:"the top";
+h+=`<div class="card start"><h3>Start here as ${R[rank]}: ${s.n}</h3><p style="margin:6px 0 0">${s.d} To reach ${nx}, focus on: ${UP[rank][2].slice(0,3).join(", ")}.</p></div>`}
+else h+=`<div class="card start"><h3>Choose your rank to get a personal plan</h3><p style="margin:6px 0 0">Tap “Choose rank” above. We’ll point you to the best mechanic to learn next.</p></div>`;
+h+=`<div class="chips">${[["rec","For my rank"],["all","All mechanics"],["1","Beginner"],["2","Easy"],["3","Medium"],["4","Hard"],["5","Expert"]].map(([k,t])=>`<button data-f="${k}" class="${flt==k?'on':''}">${t}</button>`).join("")}</div>`;
+let L=M.slice().sort((a,b)=>a.l-b.l);
+if(flt=="rec"&&rank>=0)L=L.filter(m=>m.r<=rank&&m.r>=rank-1||rank==7&&m.r>=5);
+else if(flt!="all"&&flt!="rec")L=L.filter(m=>m.l==+flt);
+h+=L.length?L.map(card).join(""):"<p>Nothing here yet. Choose a rank or show all mechanics.</p>";
+v.innerHTML=h;v.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{flt=b.dataset.f;view()});}
+else if(tab=="rank"){v.innerHTML=UP.map((u,i)=>`<div class="card rankcard" ${i==rank?'style="border-color:var(--org);border-width:2px"':''}><h3>${u[0]}${i==rank?' (you are here)':''} to ${R[i+1]||'staying on top'}</h3><p style="color:var(--mut);margin:0 0 8px">${u[1]}</p><h4 style="margin:8px 0 4px">What to practice</h4><ul>${u[2].map(x=>`<li>${x}</li>`).join("")}</ul><div class="tip"><b>Bonus tip:</b> ${u[3]}</div></div>`).join("")}
+else v.innerHTML=`<div class="card"><h3>Camera settings (common starting point)</h3><p style="color:var(--mut)">These are popular pro-style settings. Change one thing at a time and give it 3 to 5 days.</p><div class="scroll"><table><tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+<tr><td>Field of view</td><td>110</td><td>Widest view, so you see more cars and the ball.</td></tr>
+<tr><td>Distance</td><td>260 to 280</td><td>Further camera shows more of the field.</td></tr>
+<tr><td>Height</td><td>100</td><td>Good view of the ball and the road ahead.</td></tr>
+<tr><td>Angle</td><td>-3 to -5</td><td>Lower angle helps you see the ball in the air.</td></tr>
+<tr><td>Stiffness</td><td>0.4 to 0.5</td><td>Smooth camera but still follows quickly.</td></tr>
+<tr><td>Swivel speed</td><td>4 to 6</td><td>Faster ball cam turns for quick plays.</td></tr>
+<tr><td>Transition speed</td><td>1.0 to 1.2</td><td>Stops sudden camera jumps.</td></tr></table></div></div>
+<div class="card"><h3>Controller sensitivity</h3><div class="scroll"><table><tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+<tr><td>Steering sensitivity</td><td>1.0 to 1.5</td><td>Lower is smoother at high speed; raise it if turns feel slow.</td></tr>
+<tr><td>Aerial sensitivity</td><td>1.0 to 1.5</td><td>Finer air control; most players land here.</td></tr>
+<tr><td>Deadzone</td><td>0.10 to 0.15</td><td>Lower = faster response. Raise it if your stick drifts.</td></tr>
+<tr><td>Dodge deadzone</td><td>0.50 to 0.70</td><td>Makes flips more accurate.</td></tr></table></div></div>
+<div class="card"><h3>Button layout</h3><ul><li>Jump on A / Cross; boost on B / Circle or the right trigger.</li><li>Air roll left on L1 (or square) so you can flip and roll without moving your thumb.</li><li>Toggle ball cam on a shoulder button or Y / Triangle; use air roll right on R1 if you need it.</li><li>Drift / powerslide on the left trigger or X / Square.</li></ul></div>
+<div class="card"><h3>What to change by rank</h3><div class="scroll"><table><tr><th>Rank</th><th>Settings advice</th></tr>
+<tr><td>Bronze to Silver</td><td>Use default or slightly higher FOV (105 to 110). Keep ball cam on all the time. Don’t change sensitivity yet.</td></tr>
+<tr><td>Gold to Platinum</td><td>Set the pro-style camera. Bind air roll left. Lower the deadzone if flips feel slow.</td></tr>
+<tr><td>Diamond to Champion</td><td>Fine-tune stiffness and swivel. Raise the dodge deadzone for cleaner speed flips. Try 1.3 aerial sens.</td></tr>
+<tr><td>Grand Champion to SSL</td><td>Make tiny changes only. Lock your settings for at least a month so muscle memory sticks.</td></tr></table></div></div>
+<div class="tip"><b>Bonus tip:</b> Keep your settings the same when you train. Training with different settings makes your mechanics feel worse in games.</div>`;
+}
+function setRank(i){rank=i;$("#myrank").textContent=R[i];$("#dlg").close();flt="rec";view()}
+$("#rk").innerHTML=R.map((r,i)=>`<button data-i="${i}">${r}</button>`).join("");
+$("#rk").onclick=e=>{const b=e.target.closest("button");if(b)setRank(+b.dataset.i)};
+$("#chg").onclick=()=>$("#dlg").showModal();
+$("#tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;tab=b.dataset.t;document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x==b));view()};
+view();
+</script>
+<style>
+#splash{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 40%,#10234d,#04070f);display:grid;place-items:center;text-align:center;color:#fff;padding:20px;transition:opacity .6s}
+#splash.off{opacity:0;pointer-events:none}
+.glow{font:700 clamp(44px,15vw,130px)/1.05 "Chakra Petch",system-ui,sans-serif;text-shadow:0 0 6px #fff,0 0 18px #1f6fe5,0 0 42px #1f6fe5,0 0 90px #e8740c;animation:pulse 2s ease-in-out infinite alternate}
+@keyframes pulse{from{text-shadow:0 0 3px #fff,0 0 10px #1f6fe5,0 0 20px #1f6fe5,0 0 40px #e8740c}to{text-shadow:0 0 8px #fff,0 0 26px #5aa0ff,0 0 60px #1f6fe5,0 0 120px #e8740c}}
+@media(prefers-reduced-motion:reduce){.glow{animation:none}#splash{transition:none}}
+#splash p{opacity:.8;margin:14px 0 22px}
+#go{background:#e8740c;color:#fff;border:0;border-radius:99px;padding:10px 30px;font-weight:700;font-size:17px}
+#q,#cat{font:inherit;padding:7px 12px;border:1px solid var(--line);border-radius:99px;background:var(--card);color:var(--ink)}#q{flex:1;min-width:160px}
+</style>
+<div id="splash"><div><div class="glow">YoTrixker</div><p>Rocket League Mechanics Academy</p><button id="go">Enter</button></div></div>
+<script>
+$("#dlg").close();
+const D=M.slice();M.length=0;
+const DM={"Powershots":2,"Basic Aerials":1,"Fast Aerials":5,"Half Flips":3,"Wave Dashes":4,"Air Rolling":6,"Boost Management":0,"Basic Dribbling":7,"Flicking":8,"Ceiling Shots":9,"Wall-to-Air Dribbles":10,"Musty Flicks":11,"Flip Resets":12,"Speed Flips":13,"Backboard Double Taps":14};
+// [category,rankBase,rankSpan,levelBase,levelSpan,steps,mistakes,tip,sceneFrom,names]
+const C=[
+["Basic",0,3,1,2,["Add speed and boost once you can repeat it 8 out of 10 times.","Check your car angle before every touch or landing.","Use it in ranked only when it is safe."],["Rushing speed before control.","Using boost without a plan."],"Spend 10 minutes a day in Free Play on one basic skill.",2,"Powershots|Basic Aerials|Fast Aerials|Half Flips|Front Flips:Dodge forward to hit hard or gain speed|Back Flips:Dodge backward to slow down or turn|Side Flips:Dodge sideways to dodge a car or hit at an angle|Diagonal Flips:Dodge diagonally to gain speed fastest|Wave Dashes|Recoveries:Rotate in the air so your wheels face the ground|Air Rolling|Powersliding:Hold drift to turn tightly without losing speed|Boost Management|Landing on All Four Wheels:Match the car to the ground angle before landing|Wall Driving:Drive up the wall with a small jump and keep the nose forward|Wall Hits:Hit the ball off the wall with a clean touch|Backboard Clears:Hit the ball off your own backboard to clear it|Basic Dribbling|Flicking|Bounce Dribbling:Keep the ball bouncing in front of the car|Shadow Defending:Stay between ball and goal and match the attacker’s speed|Goal-Line Saves:Jump early and hit the ball away with wheels or roof|Aerial Saves:Jump toward the ball and hit it away from goal|Double-Jump Aerials:Use the second jump to gain height and reach"],
+["Intermediate",3,3,3,2,["Set up the ball with a clean first touch.","Use small, smooth stick inputs for the main motion.","Follow through with boost and look at your next touch."],["Over-rotating the car.","Having no plan after the touch."],"Record your training and watch it back. You will spot the small timing errors.",8,"Single-Tap Air Dribbles:One air touch, then a follow-up shot|Double-Tap Shots:Hit the backboard, then hit the ball again|Wall-to-Air Dribbles|Ceiling Shots|Ceiling Resets:Touch the ceiling with your wheels to reset your flip|Ground-to-Air Dribbles:Pop the ball up and follow it into the air|Hook Shots:Curve the ball with the side of the car|45-Degree Flicks|90-Degree Flicks:Flip sideways under the ball|180-Degree Flicks:Flip backward while the car turns around|Musty Flicks|Delayed Flicks:Wait a moment before the flip to trick the keeper|Front Flicks|Backward Flicks|Side Flicks|Speed Flips|Kickoff Speed Flips:Speed flip at kickoff to get the ball first|Air Roll Shots|Air Roll Aerials|Air Roll Recoveries|Backboard Double Taps|Wall Reads:Predict where the ball comes off the wall|Pinches:Squeeze the ball between your car and the ground or wall|Ground Pinches|Wall Pinches|Corner Reads|Ceiling Reads|Redirects:Change the direction of a pass with one touch"],
+["Advanced",5,2,4,2,["Practise in a training pack with a still ball.","Slow down each part: touch, rotate, flip.","Repeat it at game speed 20 times in a row."],["Forcing it when you have free options.","Wasting all your boost before the touch."],"Use these only with free space. A safe touch beats a missed trick.",12,"Flip Resets|Ceiling Flip Resets|Wall Flip Resets|Double Flip Resets|Triple Flip Resets|Flip-Reset Musty|Flip-Reset Double Tap|Flip-Reset Air Dribble|Breezi Flicks:Flick while wobbling the car with air roll|Tornado Spins|Kuxir Twists:Spin the car sideways during a diagonal flip|Musty Double Taps|Psycho Shots:Hit the ball off the backboard from behind|Double Touches off the Ceiling|Ceiling Pinches|Breezi Air Dribbles|Ground-to-Air Flip Resets|Delayed Air Dribbles|Air Dribble Bumps:Bump the opponent while air dribbling|Air Dribble Redirects|Ceiling-to-Ground Plays|Reverse Aerials:Aerial while facing backward|Squishy Saves:Save by pinching the ball against the wall"],
+["Freestyle",6,2,5,1,["Learn the base mechanic first (the reset, flick or dribble).","Add the style part in slow steps.","Land the whole chain 10 times before using it in games."],["Adding style before the base is consistent.","Looking at the car and not the ball."],"Freestyle is for fun and creativity. Keep your safe play for ranked.",11,"Stall:Use air roll and boost to hang in the air|Hel-Jump|Hel-Jump Resets|JZR Flicks|Musty Resets|Breezi Resets|Mawkzy Flicks|Reset Chains|Quad Resets|Triple Resets|Reset Musty|Reset Pogo|Pogo Shots|Ground-to-Air Pogo|Ceiling Pogo|Flip-Reset Pogo|Ceiling Shots with Stalls|Twisting Air Dribbles|Freestyle Double Taps|Freestyle Redirects|Delayed Reset Shots"],
+["Movement",2,4,2,3,["Do it in Free Play with no ball first.","Watch your landing: all four wheels, nose slightly down.","Chain it with boost or a flip to keep speed."],["Landing off balance.","Pressing the flip too high."],"Movement mechanics save the most time over a whole game.",4,"Side Wave Dashes|Diagonal Wave Dashes|Backward Wave Dashes|Wall Dashes|Zap Dashes|Chain Dashes|Curve Dashes|Half-Flip Cancels:Cancel the flip with a forward tilt to turn quickly|Flip Cancels|MENA Flips|Powerslide Cuts|Wall Stops|Ceiling Drops|Flip Recovery|Fast Landing Recoveries|Dodge Control"],
+["Shooting",2,4,2,3,["Read the bounce and pick your angle.","Get your car under or behind the ball.","Hit through the centre and aim at the far corner."],["Hitting too early or too late.","Aiming at the keeper."],"Placement beats power. Aim for corners and low far posts.",2,"Bounce Shots|Delayed Flip Shots|Kuxir Pinches|Corner Pinches|Redirect Shots|Triple Taps|Half-Volley Shots:Hit the ball just after it bounces|Chip Shots:Lift the ball over a keeper or challenger|Catching:Let the ball land softly on your car|Ball Carrying|Low 50/50s|Flick Challenges"],
+["Defense",1,5,1,4,["Get back and see both the ball and the attacker.","Stay in the middle and move with the ball.","Make a safe touch to the side or out."],["Diving in too early.","Chasing the ball and giving up your net."],"Patience wins. Make the attacker shoot first.",0,"Backwards Saves|Near-Post Saves|Far-Post Saves|Fake Challenges|Speed Challenges|50/50 Challenges|Demo Dodging|Air Dribble Challenges|Ceiling Shot Defense"],
+["Special",6,2,5,1,["Know the base mechanic (flip, reset or dribble).","Learn the extra spin or twist slowly.","Link it to a shot only when you have time."],["Doing it without space.","Wasting boost and time."],"These are community names. Learn them by watching clips and copying slowly.",10,"Doomsee Dish|Classy Flick|Muirie Reset|Helicopter Reset|Pancake|Horse Dash|Lix Jump|Turtle Dribble|Turtle Flick|Reverse Flick|Musty Double Tap|Breezi Flick|Tornado Flick|Reset Chains"]];
+const seen=new Set();
+C.forEach(([c,rb,rs,lb,ls,st,mi,tp,si,L])=>{const a=L.split("|");a.forEach((e,i)=>{const[n,...q]=e.split(":");const cue=q.join(":");if(seen.has(n))return;seen.add(n);
+if(n in DM){const o=D[DM[n]];o.c=c;M.push(o);return}
+const f=i/a.length,sc=D[si].sc.slice();sc[2]+=(i%5-2)*4;
+M.push({n,c,r:rb+Math.floor(f*rs),l:Math.min(5,lb+Math.floor(f*ls)),d:c+" mechanic. "+(cue||"A variation or combination: master the base mechanic first."),s:["Learn "+n+" slowly in Free Play or a training pack."].concat(st),m:mi,t:tp,sc})})});
+let cat="";
+const ov=view;
+function lst(){const q=$("#q").value.toLowerCase();let L=M.slice().sort((a,b)=>a.l-b.l||a.r-b.r);
+if(q)L=L.filter(m=>(m.n+m.d).toLowerCase().includes(q));
+else{if(flt=="rec"&&rank>=0)L=L.filter(m=>m.r<=rank&&m.r>=rank-1||rank==7&&m.r>=5);else if(+flt)L=L.filter(m=>m.l==+flt);if(cat)L=L.filter(m=>m.c==cat)}
+$("#cnt").textContent=L.length+" of "+M.length+" mechanics";$("#lst").innerHTML=L.length?L.map(card).join(""):"<p>Nothing found. Try another filter.</p>"}
+view=function(){if(tab!="mech")return ov();
+let h="";if(rank>=0){const s=M.filter(m=>m.r<=rank).sort((a,b)=>b.r-a.r||a.l-b.l)[0];const nx=rank<7?R[rank+1]:"the top";
+h+=`<div class="card start"><h3>Start here as ${R[rank]}: ${s.n}</h3><p style="margin:6px 0 0">${s.d} To reach ${nx}, focus on: ${UP[rank][2].slice(0,3).join(", ")}.</p></div>`}
+else h+=`<div class="card start"><h3>Choose your rank to get a personal plan</h3><p style="margin:6px 0 0">Tap “Choose rank” above and we’ll point you to the best mechanic to learn next.</p></div>`;
+h+=`<div class="chips">${[["rec","For my rank"],["all","All"],["1","Beginner"],["2","Easy"],["3","Medium"],["4","Hard"],["5","Expert"]].map(([k,t])=>`<button data-f="${k}" class="${flt==k?"on":""}">${t}</button>`).join("")}</div>`;
+h+=`<div class="chips"><input id="q" type="search" placeholder="Search mechanics" aria-label="Search mechanics"><select id="cat" aria-label="Category"><option value="">All categories</option>${C.map(c=>`<option ${c[0]==cat?"selected":""}>${c[0]}</option>`).join("")}</select></div><p id="cnt" style="color:var(--mut);margin:0 0 10px"></p><div id="lst"></div>`;
+$("#view").innerHTML=h;
+$("#view").querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{flt=b.dataset.f;view()});
+$("#q").oninput=lst;$("#cat").onchange=e=>{cat=e.target.value;lst()};lst()};
+view();
+function enter(){const s=$("#splash");if(s.classList.contains("off"))return;s.classList.add("off");setTimeout(()=>s.remove(),700);if(rank<0)$("#dlg").showModal()}
+$("#go").onclick=enter;setTimeout(enter,6000);
+// ---------- 3D viewer ----------
+const K=(d,hit,ep,car,ball,boost)=>({d,hit,ep,car,ball,boost});
+const TP={
+drive:K(4,2.2,[3.4,1,0],[[0,-14,.5,0,0,0,0],[2.2,2,.5,0,0,0,0],[3.4,6,.5,0,0,0,0],[4,8,.5,0,0,0,0]],[[0,3.4,.9,0],[2.2,3.4,.9,0],[4,16,.9,0]],[0,2.6]),
+aerial:K(5,3,[4,7.6,0],[[0,-14,.5,0,0,0,0],[1,-9,.5,0,0,0,0],[1.3,-8.5,1.6,0,.35,0,0],[3,4,7,0,.75,0,0],[4,8,8,0,.3,0,0],[5,11,5,0,0,0,0]],[[0,4.5,12,0],[3,4.4,7.8,0],[5,17,10,0]],[.8,3.2]),
+flip:K(4.5,2.5,[3.5,1.2,0],[[0,-14,.5,0,0,0,0],[1.2,-5,.5,0,0,0,0],[1.5,-3.5,1.8,0,0,0,0],[2.5,2,2.4,0,6.28,0,0],[3.2,6,.5,0,6.28,0,0],[4.5,10,.5,0,6.28,0,0]],[[0,3.4,.9,0],[2.5,3.4,1.2,0],[4.5,16,3,0]],[0,1.2]),
+drib:K(6,4,[3,1.7,0],[[0,-12,.5,0,0,0,0],[3.4,2,.5,0,0,0,0],[4,3.2,1.8,0,0,0,0],[4.8,7,2.4,0,6.28,0,0],[5.4,9,.5,0,6.28,0,0],[6,10,.5,0,6.28,0,0]],[[0,-11.6,1.65,0],[3.4,2.4,1.65,0],[4,4,2.6,0],[6,17,6,0]],[3.6,4.6]),
+wall:K(5,2.6,[16.2,6,0],[[0,0,.5,0,0,0,0],[1.4,14.5,.5,0,0,0,0],[1.9,16.4,1.6,0,1.57,0,0],[3,16.4,8,0,1.57,0,0],[5,16.4,10,0,1.57,0,0]],[[0,10,5,0],[2.6,16.6,6.5,0],[5,6,3,0]],[0,3]),
+reset:K(5,2.8,[3,8,0],[[0,-10,.5,0,0,0,0],[1.6,-3,5,0,.6,0,0],[2.8,2.5,7.3,0,.3,0,3.14],[3.6,5,9,0,6.5,0,3.14],[5,10,8,0,6.5,0,3.14]],[[0,3,9.8,0],[2.8,3,9.2,0],[5,17,11,0]],[.8,2.6]),
+ceil:K(7,5.6,[3,7.4,0],[[0,4,.5,0,0,0,0],[1.2,15,.5,0,0,0,0],[1.7,16.4,1.8,0,1.57,0,0],[2.8,16.4,10.5,0,1.57,0,0],[3.5,13,11.4,0,3.14,0,0],[4.6,5,11.4,0,3.14,0,0],[5.3,3,8.5,0,5,0,0],[5.7,3,7.2,0,6.28,0,0],[7,10,7.3,0,6.28,0,0]],[[0,3,10,0],[5.6,3,7.4,0],[7,17,6,0]],[0,1.5]),
+wave:K(5,2.5,[-3.5,.8,0],[[0,-14,.5,0,0,0,0],[1.2,-8,.5,0,0,0,0],[1.5,-7,1.8,0,-.25,0,0],[2.2,-4.5,.9,0,-.2,0,0],[2.5,-3.5,.5,0,0,0,0],[3.6,6,.5,0,0,0,0],[5,16,.5,0,0,0,0]],[[0,12,.9,0],[5,12,.9,0]],[0,1.2]),
+def:K(4.5,3,[-15.5,1,0],[[0,-4,.5,4,0,3.14,0],[2.4,-15.5,.5,.5,0,3.14,0],[4.5,-15.5,.5,.5,0,3.14,0]],[[0,8,.9,-3],[2.4,-12,.9,-1],[3,-14.5,.9,.5],[4.5,0,.9,-3]],[0,2])};
+const MP=[[/reset|pogo|helicopter|muirie|doomsee/i,"reset"],[/ceiling/i,"ceil"],[/wall|backboard|squishy|corner/i,"wall"],[/wave|dash|zap|mena|slide|cancel|landing|recover|stall|hel-jump|lix|horse|stop|drop|control/i,"wave"],[/flick|dribble|carry|catch|bounce|turtle|musty|breezi|pancake|jzr|mawkzy|tornado|kuxir|classy/i,"drib"],[/aerial|air |double|touch|psycho|redirect|hook|chip|volley/i,"aerial"],[/flip|speed|dodge|kickoff/i,"flip"],[/save|defen|shadow|challenge|50|demo|fake|post/i,"def"]];
+function tpl(m){for(const[r,k]of MP)if(r.test(m.n))return TP[k];return m.c=="Defense"?TP.def:TP.drive}
+function samp(a,t){let i=0;while(i<a.length-2&&t>a[i+1][0])i++;const p=a[i],q=a[i+1],u=Math.max(0,Math.min(1,(t-p[0])/(q[0]-p[0]||1))),e=u*u*(3-2*u),w=u*.5+e*.5;return p.slice(1).map((v,j)=>v+(q[j+1]-v)*w)}
+let R3,S3,C3,carG,ballM,ringM,flame,cur=null,mode3=0,T0=0,az=1.15,el=.3,raf=0,lastStep=-1,drag=null;
+function init3(){
+R3=new THREE.WebGLRenderer({antialias:true});R3.setPixelRatio(Math.min(2,devicePixelRatio||1));
+S3=new THREE.Scene();S3.background=new THREE.Color(0x0b1730);
+C3=new THREE.PerspectiveCamera(50,2,.1,200);
+S3.add(new THREE.HemisphereLight(0xffffff,0x223355,1.1));const dl=new THREE.DirectionalLight(0xffffff,.8);dl.position.set(8,20,10);S3.add(dl);
+const g=new THREE.Mesh(new THREE.PlaneGeometry(36,20),new THREE.MeshLambertMaterial({color:0x14337a}));g.rotation.x=-Math.PI/2;S3.add(g);
+const gr=new THREE.GridHelper(36,18,0x2a5bd7,0x1d3f8f);gr.scale.z=20/36;gr.position.y=.02;S3.add(gr);
+const L=(geo,c,x,y)=>{const l=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:c}));l.position.set(x,y,0);S3.add(l)};
+L(new THREE.BoxGeometry(36,12,20),0x3d6fe0,0,6);L(new THREE.BoxGeometry(.3,4,8),0xe8740c,18,2);L(new THREE.BoxGeometry(.3,4,8),0x2f8cff,-18,2);
+carG=new THREE.Group();carG.rotation.order="YZX";
+const bx=(w,h,d,c,x,y)=>{const b=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshLambertMaterial({color:c}));b.position.set(x,y,0);carG.add(b)};
+bx(2.4,.55,1.3,0x1f6fe5,0,0);bx(1.1,.4,1,0x9cc3ff,-.2,.45);bx(.4,.2,1.2,0xe8740c,1.1,.1);
+[[.8,.7],[.8,-.7],[-.8,.7],[-.8,-.7]].forEach(([x,z])=>{const w=new THREE.Mesh(new THREE.CylinderGeometry(.38,.38,.3,16),new THREE.MeshLambertMaterial({color:0x111111}));w.rotation.x=Math.PI/2;w.position.set(x,-.15,z);carG.add(w)});
+flame=new THREE.Mesh(new THREE.ConeGeometry(.3,1.4,8),new THREE.MeshBasicMaterial({color:0xff9a1f}));flame.rotation.z=Math.PI/2;flame.position.set(-1.9,0,0);carG.add(flame);S3.add(carG);
+ballM=new THREE.Mesh(new THREE.SphereGeometry(.9,24,16),new THREE.MeshLambertMaterial({color:0xf2f2f2}));ballM.add(new THREE.Mesh(new THREE.SphereGeometry(.92,12,8),new THREE.MeshBasicMaterial({color:0x888888,wireframe:true})));S3.add(ballM);
+ringM=new THREE.Mesh(new THREE.TorusGeometry(1.6,.12,10,40),new THREE.MeshBasicMaterial({color:0xe5262b}));S3.add(ringM);
+R3.domElement.onpointerdown=e=>{drag=[e.clientX,e.clientY];R3.domElement.setPointerCapture(e.pointerId)};
+R3.domElement.onpointermove=e=>{if(!drag)return;az-=(e.clientX-drag[0])*.008;el=Math.max(.05,Math.min(1.3,el+(e.clientY-drag[1])*.006));drag=[e.clientX,e.clientY]};
+R3.domElement.onpointerup=()=>drag=null}
+function frame(now){if(!cur||!cur.el.isConnected){raf=0;return}raf=requestAnimationFrame(frame);
+const T=cur.T,m=cur.m,per=T.d+.9;let t=((now-T0)/1000)%per;t=Math.min(t,T.d);
+const ms=mode3?Math.max(0,Math.min(1,(t-.6*T.hit)/(.4*T.hit))):0;
+const c=samp(T.car,t);carG.position.set(c[0],c[1],c[2]+1.9*ms);carG.rotation.set(c[5]+0,c[4]+.55*ms,c[3]);
+flame.visible=t>=T.boost[0]&&t<=T.boost[1];
+let b=samp(T.ball,t);if(mode3){if(t>T.hit){const h=samp(T.ball,T.hit);b=b.map((v,j)=>h[j]+(v-h[j])*.3)}b[1]=Math.max(.9,b[1]-5*ms*ms)}
+ballM.position.set(b[0],b[1],b[2]);
+ringM.visible=!!mode3;ringM.position.set(T.ep[0],T.ep[1],T.ep[2]);ringM.scale.setScalar(1+.15*Math.sin(now/180));
+const tg=[2,4.5,0],r=27;C3.position.set(tg[0]+r*Math.cos(el)*Math.cos(az),tg[1]+r*Math.sin(el),r*Math.cos(el)*Math.sin(az));C3.lookAt(tg[0],tg[1],0);ringM.lookAt(C3.position);
+R3.render(S3,C3);
+const n=m.s.length,st=Math.min(n-1,Math.floor(t/T.d*n)),k=mode3?-2:st;if(k!=lastStep){lastStep=k;cur.cap.textContent=mode3?"Mistake: "+m.m[0]+" (the red ring shows where it goes wrong)":"Step "+(st+1)+" of "+n+": "+m.s[st]}}
+function mount(d){const i=+d.dataset.n,m=M[i],stage=d.querySelector(".stage");
+try{if(!R3)init3()}catch(e){stage.textContent="3D view needs WebGL. Try another browser or device.";return}
+stage.textContent="";stage.appendChild(R3.domElement);const w=stage.clientWidth||320,h=270;R3.setSize(w,h,false);C3.aspect=w/h;C3.updateProjectionMatrix();
+mode3=0;lastStep=-9;T0=performance.now();d.querySelectorAll(".vt button").forEach(b=>b.classList.toggle("on",b.dataset.v=="0"));
+cur={m,T:tpl(m),el:stage,cap:d.querySelector(".cap")};if(!raf)raf=requestAnimationFrame(frame)}
+document.addEventListener("toggle",e=>{const d=e.target;if(!d.matches||!d.matches("details.m"))return;
+if(d.open){document.querySelectorAll("details.m[open]").forEach(o=>{if(o!==d)o.open=false});mount(d)}else if(cur&&d.contains(cur.el)){cur=null}},true);
+$("#view").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b||!cur)return;mode3=+b.dataset.v;lastStep=-9;T0=performance.now();b.parentNode.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x==b))});
+card=function(m){const rec=rank>=0&&(m.r<=rank&&m.r>=rank-1&&rank<7||rank==7&&m.r>=5);
+return `<details class="m" data-n="${M.indexOf(m)}"><summary><b>${m.n}</b>${rec?'<span class="tag rec">Recommended for you</span>':''}<span class="tag">${LV[m.l]}</span><span class="tag">Learn from ${R[m.r]}</span></summary><div class="body"><p class="d">${m.d}</p>
+<div class="v3"><div class="stage"></div><div class="vt"><button data-v="0" class="on">Correct way</button><button data-v="1">Common mistake</button><span>Drag to rotate</span></div><p class="cap"></p></div>
+<div class="cols"><div><h4>Steps</h4><ol>${m.s.map(x=>`<li>${x}</li>`).join("")}</ol></div><div class="bad"><h4>Common mistakes</h4><ul>${m.m.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>
+<div class="tip"><b>Bonus tip:</b> ${m.t}</div></div></details>`};
+// ---------- Settings tab ----------
+const tb=(h,r)=>`<div class="scroll"><table><tr>${h.map(x=>`<th>${x}</th>`).join("")}</tr>${r.map(x=>`<tr>${x.map(y=>`<td>${y}</td>`).join("")}</tr>`).join("")}</table></div>`;
+const SENS=()=>`<div class="card"><h3>Read this first</h3><p style="margin:6px 0 0">There is no perfect setting. The values below are typical starting points and ranges that many strong players use. Confirm each number in your game menu, change one thing at a time, and keep it for at least a week before judging it.</p></div>
+<div class="card"><h3>Camera</h3>${tb(["Setting","Start with","Range to test","What it does"],[["Field of view","110","107 to 110","Wider view shows more of the field. 110 is the maximum."],["Distance","270","260 to 280","Further camera shows more around the car but makes the car smaller."],["Height","100","90 to 110","Higher camera sees over the car; lower feels more speedy."],["Angle","-3","-3 to -5","More negative tilts the view down, so the ball and car stay in sight."],["Stiffness","0.45","0.40 to 0.50","Lower means the camera trails behind more. Too high feels stiff."],["Swivel speed","5.0","4.0 to 6.0","How fast ball cam turns. Faster helps follow quick plays but can feel dizzy."],["Transition speed","1.0","1.0 to 1.2","Speed of the switch between ball cam and free cam."],["Camera shake","Off","Off","Removes the shake on hits and boosts."]])}</div>
+<div class="card"><h3>Controller sensitivity</h3>${tb(["Setting","Start with","Range to test","Effect"],[["Steering sensitivity","1.0","1.0 to 1.5","Higher turns the car more for the same stick movement."],["Aerial sensitivity","1.0","1.0 to 1.5","Higher rotates the car faster in the air."],["Controller deadzone","0.10","0.05 to 0.15","The stick travel that is ignored. Lower reacts faster; raise it if your stick drifts."],["Dodge deadzone","0.50","0.50 to 0.70","How far you push to flip diagonally or sideways. Higher stops accidental flips."],["Deadzone shape","Cross","Cross","Cross is the standard shape and is the one most players use."]])}</div>
+<div class="card"><h3>Buttons and video</h3><ul><li>Jump: A or Cross. Boost: B or Circle, or the right trigger.</li><li>Air roll left: a shoulder button or X / Square. Many players also bind air roll right.</li><li>Ball cam: toggle on Y / Triangle or a shoulder button. Keep it on most of the time.</li><li>Powerslide: left trigger or L1, whatever your thumb reaches without leaving the stick.</li><li>Video: cap FPS at your screen’s refresh rate (120 or 144 if you can), VSync off, and keep effects low for steadier frames.</li></ul></div>
+<div class="card"><h3>What to change at each rank</h3>${tb(["Rank","Camera","Steer / air sens","Deadzones","Focus"],[["Bronze to Silver","FOV 107 to 110, distance 270, height 100, angle -3, swivel 4 to 5","1.0 / 1.0","0.10 / 0.50","Change nothing for 2 weeks. Learn to use ball cam."],["Gold to Platinum","FOV 110, distance 270, height 100, angle -3 to -4, stiffness 0.45, swivel 5","1.0 to 1.2 / 1.0 to 1.2","0.10 / 0.50 to 0.60","Bind air roll left. Fine-tune the camera so the ball is never hidden."],["Diamond to Champion","FOV 110, distance 260 to 280, height 100 to 110, angle -3 to -5, swivel 5 to 6","1.1 to 1.4 / 1.1 to 1.4","0.05 to 0.10 / 0.60 to 0.70","Raise sens in small steps (0.1) as your aerials get cleaner."],["Grand Champion to SSL","Same ranges, tiny changes only","1.2 to 1.6 / 1.2 to 1.6, tuned to you","0.05 to 0.10 / 0.60 to 0.80","Lock your settings for a month so muscle memory can settle."]])}</div>
+<div class="card"><h3>Fix common problems</h3>${tb(["Problem","Try this"],[["Car twitches or oversteers at speed","Lower steering sensitivity by 0.1 to 0.2."],["Turns feel slow in tight spaces","Raise steering by 0.1 to 0.2, or use powerslide more."],["You overshoot and spin in the air","Lower aerial sensitivity, and use small stick taps."],["Air corrections feel sluggish","Raise aerial sensitivity by 0.1."],["Accidental flips when you only want to jump","Raise the dodge deadzone to 0.60 or higher."],["Stick drifts and the car moves alone","Raise the controller deadzone by 0.02 to 0.05, or clean or replace the stick."],["Ball hides behind the car","Raise height, make the angle more negative, or increase distance."],["Camera makes you dizzy","Lower swivel speed and keep FOV at 110."]])}</div>
+<div class="card start"><h3>How to test a setting</h3><ol><li>Change one setting only.</li><li>Do 15 minutes in Free Play and one training pack with it.</li><li>Play at least 10 ranked or casual games over several days.</li><li>Keep the change if your touches and landings improve. If not, go back to your last setting.</li></ol><div class="tip"><b>Bonus tip:</b> Take a screenshot of your settings so you can restore them after a reset or an update.</div></div>`;
+const v2=view;view=function(){if(tab!="sens")return v2();$("#view").innerHTML=SENS()};
+</script>
+</body>
+</html>
